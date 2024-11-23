@@ -3,108 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>投票即時結果</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
-        }
-        h1 {
-            font-size: 36px;
-        }
-        .candidate {
-            font-size: 30px;
-            margin: 20px 0;
-        }
-        .votes {
-            font-size: 40px;
-            font-weight: bold;
-        }
-    </style>
+    <title>投票結果</title>
 </head>
 <body>
     <h1>投票即時結果</h1>
 
-    <div id="result">
-        <div class="candidate" id="candidate-1">
-            <span>1號-高雄總院 王大德</span>
-            <div class="votes" id="votes-1">0</div>
-        </div>
-        <div class="candidate" id="candidate-2">
-            <span>2號-屏東分院 呂曉芬</span>
-            <div class="votes" id="votes-2">0</div>
-        </div>
-        <div class="candidate" id="candidate-3">
-            <span>3號-高雄總院 蔡鈺同</span>
-            <div class="votes" id="votes-3">0</div>
-        </div>
-        <div class="candidate" id="candidate-4">
-            <span>4號-高雄總院 王仁川</span>
-            <div class="votes" id="votes-4">0</div>
-        </div>
-        <div class="candidate" id="candidate-5">
-            <span>5號-台南分院 郭鈺婷</span>
-            <div class="votes" id="votes-5">0</div>
-        </div>
-        <div class="candidate" id="candidate-6">
-            <span>6號-高雄總院 陳芳彥</span>
-            <div class="votes" id="votes-6">0</div>
-        </div>
-        <div class="candidate" id="candidate-7">
-            <span>7號-台南分院 王輝達</span>
-            <div class="votes" id="votes-7">0</div>
-        </div>
-        <div class="candidate" id="candidate-8">
-            <span>8號-屏東分院 黃正興</span>
-            <div class="votes" id="votes-8">0</div>
-        </div>
-        <div class="candidate" id="candidate-9">
-            <span>9號-高雄總院 方傳甫</span>
-            <div class="votes" id="votes-9">0</div>
-        </div>
-        <div class="candidate" id="candidate-10">
-            <span>10號-高雄總院 鄭愛玲</span>
-            <div class="votes" id="votes-10">0</div>
-        </div>
+    <div id="results">
+        <div>高雄總院 王大德：<span id="vote1">0</span> 票</div>
+        <div>屏東分院 呂曉芬：<span id="vote2">0</span> 票</div>
+        <div>高雄總院 蔡鈺同：<span id="vote3">0</span> 票</div>
+        <div>高雄總院 王仁川：<span id="vote4">0</span> 票</div>
+        <div>台南分院 郭鈺婷：<span id="vote5">0</span> 票</div>
+        <div>高雄總院 陳芳彥：<span id="vote6">0</span> 票</div>
+        <div>台南分院 王輝達：<span id="vote7">0</span> 票</div>
+        <div>屏東分院 黃正興：<span id="vote8">0</span> 票</div>
+        <div>高雄總院 方傳甫：<span id="vote9">0</span> 票</div>
+        <div>高雄總院 鄭愛玲：<span id="vote10">0</span> 票</div>
     </div>
 
     <script>
-        // 讀取 URL 查詢參數
-        var params = new URLSearchParams(window.location.search);
-        var votes = {
-            1: 0,
-            2: 0,
-            3: 0,
-            4: 0,
-            5: 0,
-            6: 0,
-            7: 0,
-            8: 0,
-            9: 0,
-            10: 0
-        };
+        // 從 URL 獲取投票數據
+        const urlParams = new URLSearchParams(window.location.search);
+        const votes = urlParams.getAll('vote');
 
-        // 讀取所有 'vote' 參數並計數
-        params.getAll('vote').forEach(function(vote) {
-            votes[vote]++;
+        // 初始化候選人票數
+        const voteCounts = Array(10).fill(0);
+
+        // 根據 URL 參數更新票數
+        votes.forEach(vote => {
+            const voteIndex = parseInt(vote) - 1;
+            if (voteIndex >= 0 && voteIndex < 10) {
+                voteCounts[voteIndex]++;
+            }
         });
 
-        // 更新每個選手的票數顯示
-        for (var i = 1; i <= 10; i++) {
-            document.getElementById('votes-' + i).innerText = votes[i];
-        }
-
-        // 排序選手並依票數排序
-        var sortedCandidates = Object.keys(votes).sort(function(a, b) {
-            return votes[b] - votes[a];
+        // 顯示票數
+        voteCounts.forEach((count, index) => {
+            document.getElementById(`vote${index + 1}`).textContent = count;
         });
 
-        var resultDiv = document.getElementById('result');
-        sortedCandidates.forEach(function(candidateId) {
-            var candidateDiv = document.getElementById('candidate-' + candidateId);
-            resultDiv.appendChild(candidateDiv);
-        });
+        // 排序並顯示
+        const resultsDiv = document.getElementById('results');
+        const sortedResults = Array.from(resultsDiv.children)
+            .sort((a, b) => {
+                const countA = parseInt(a.querySelector('span').textContent);
+                const countB = parseInt(b.querySelector('span').textContent);
+                return countB - countA; // 票數從高到低排序
+            });
+
+        // 更新結果頁面順序
+        sortedResults.forEach(result => resultsDiv.appendChild(result));
     </script>
 </body>
 </html>
