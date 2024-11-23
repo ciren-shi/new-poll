@@ -70,7 +70,7 @@
     </div>
 
     <script>
-        // 這裡假設我們用 URL 的查詢參數來獲取投票結果
+        // 讀取 URL 查詢參數
         var params = new URLSearchParams(window.location.search);
         var votes = {
             1: 0,
@@ -85,17 +85,17 @@
             10: 0
         };
 
-        // 假設每個選手的投票都是以 "vote" 參數傳遞，並且允許多個選項
+        // 讀取所有 'vote' 參數並計數
         params.getAll('vote').forEach(function(vote) {
             votes[vote]++;
         });
 
-        // 更新頁面顯示每位選手的票數
+        // 更新每個選手的票數顯示
         for (var i = 1; i <= 10; i++) {
             document.getElementById('votes-' + i).innerText = votes[i];
         }
 
-        // 排序選手並更新顯示順序
+        // 排序選手並依票數排序
         var sortedCandidates = Object.keys(votes).sort(function(a, b) {
             return votes[b] - votes[a];
         });
