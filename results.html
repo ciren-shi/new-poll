@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>投票即時結果</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        h1 {
+            font-size: 36px;
+        }
+        .candidate {
+            font-size: 30px;
+            margin: 20px 0;
+        }
+        .votes {
+            font-size: 40px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>投票即時結果</h1>
+
+    <div id="result">
+        <div class="candidate" id="candidate-1">
+            <span>1號-高雄總院 王大德</span>
+            <div class="votes" id="votes-1">0</div>
+        </div>
+        <div class="candidate" id="candidate-2">
+            <span>2號-屏東分院 呂曉芬</span>
+            <div class="votes" id="votes-2">0</div>
+        </div>
+        <div class="candidate" id="candidate-3">
+            <span>3號-高雄總院 蔡鈺同</span>
+            <div class="votes" id="votes-3">0</div>
+        </div>
+        <div class="candidate" id="candidate-4">
+            <span>4號-高雄總院 王仁川</span>
+            <div class="votes" id="votes-4">0</div>
+        </div>
+        <div class="candidate" id="candidate-5">
+            <span>5號-台南分院 郭鈺婷</span>
+            <div class="votes" id="votes-5">0</div>
+        </div>
+        <div class="candidate" id="candidate-6">
+            <span>6號-高雄總院 陳芳彥</span>
+            <div class="votes" id="votes-6">0</div>
+        </div>
+        <div class="candidate" id="candidate-7">
+            <span>7號-台南分院 王輝達</span>
+            <div class="votes" id="votes-7">0</div>
+        </div>
+        <div class="candidate" id="candidate-8">
+            <span>8號-屏東分院 黃正興</span>
+            <div class="votes" id="votes-8">0</div>
+        </div>
+        <div class="candidate" id="candidate-9">
+            <span>9號-高雄總院 方傳甫</span>
+            <div class="votes" id="votes-9">0</div>
+        </div>
+        <div class="candidate" id="candidate-10">
+            <span>10號-高雄總院 鄭愛玲</span>
+            <div class="votes" id="votes-10">0</div>
+        </div>
+    </div>
+
+    <script>
+        // 這裡假設我們用 URL 的查詢參數來獲取投票結果
+        var params = new URLSearchParams(window.location.search);
+        var votes = {
+            1: 0,
+            2: 0,
+            3: 0,
+            4: 0,
+            5: 0,
+            6: 0,
+            7: 0,
+            8: 0,
+            9: 0,
+            10: 0
+        };
+
+        // 假設每個選手的投票都是以 "vote" 參數傳遞，並且允許多個選項
+        params.getAll('vote').forEach(function(vote) {
+            votes[vote]++;
+        });
+
+        // 更新頁面顯示每位選手的票數
+        for (var i = 1; i <= 10; i++) {
+            document.getElementById('votes-' + i).innerText = votes[i];
+        }
+
+        // 排序選手並更新顯示順序
+        var sortedCandidates = Object.keys(votes).sort(function(a, b) {
+            return votes[b] - votes[a];
+        });
+
+        var resultDiv = document.getElementById('result');
+        sortedCandidates.forEach(function(candidateId) {
+            var candidateDiv = document.getElementById('candidate-' + candidateId);
+            resultDiv.appendChild(candidateDiv);
+        });
+    </script>
+</body>
+</html>
