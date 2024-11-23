@@ -3,53 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>請選下三名你心目中的正德歌王歌后!!!</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
-        }
-        h1 {
-            font-size: 36px;
-        }
-        .candidate {
-            margin: 10px 0;
-            font-size: 18px;
-        }
-        .submit-btn {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 18px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        .submit-btn:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <title>投票頁面</title>
 </head>
 <body>
     <h1>請選下三名你心目中的正德歌王歌后!!!</h1>
+    <form id="voteForm" action="result.html" method="GET">
+        <label><input type="checkbox" name="vote" value="1"> 高雄總院 王大德</label><br>
+        <label><input type="checkbox" name="vote" value="2"> 屏東分院 呂曉芬</label><br>
+        <label><input type="checkbox" name="vote" value="3"> 高雄總院 蔡鈺同</label><br>
+        <label><input type="checkbox" name="vote" value="4"> 高雄總院 王仁川</label><br>
+        <label><input type="checkbox" name="vote" value="5"> 台南分院 郭鈺婷</label><br>
+        <label><input type="checkbox" name="vote" value="6"> 高雄總院 陳芳彥</label><br>
+        <label><input type="checkbox" name="vote" value="7"> 台南分院 王輝達</label><br>
+        <label><input type="checkbox" name="vote" value="8"> 屏東分院 黃正興</label><br>
+        <label><input type="checkbox" name="vote" value="9"> 高雄總院 方傳甫</label><br>
+        <label><input type="checkbox" name="vote" value="10"> 高雄總院 鄭愛玲</label><br>
 
-    <form action="result.html" method="GET">
-        <div class="candidate">
-            <input type="checkbox" name="vote" value="1"> 1號-高雄總院 王大德<br>
-            <input type="checkbox" name="vote" value="2"> 2號-屏東分院 呂曉芬<br>
-            <input type="checkbox" name="vote" value="3"> 3號-高雄總院 蔡鈺同<br>
-            <input type="checkbox" name="vote" value="4"> 4號-高雄總院 王仁川<br>
-            <input type="checkbox" name="vote" value="5"> 5號-台南分院 郭鈺婷<br>
-            <input type="checkbox" name="vote" value="6"> 6號-高雄總院 陳芳彥<br>
-            <input type="checkbox" name="vote" value="7"> 7號-台南分院 王輝達<br>
-            <input type="checkbox" name="vote" value="8"> 8號-屏東分院 黃正興<br>
-            <input type="checkbox" name="vote" value="9"> 9號-高雄總院 方傳甫<br>
-            <input type="checkbox" name="vote" value="10"> 10號-高雄總院 鄭愛玲<br>
-        </div>
-        
-        <p><strong>請選擇三位選手！</strong></p>
-        <input type="submit" class="submit-btn" value="提交投票">
+        <p>每人最多選擇三個候選人！</p>
+        <button type="submit">提交投票</button>
     </form>
+
+    <script>
+        // 確保最多只能選擇三個
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        const form = document.getElementById('voteForm');
+
+        form.addEventListener('submit', (event) => {
+            const selectedVotes = Array.from(checkboxes).filter(checkbox => checkbox.checked);
+            if (selectedVotes.length !== 3) {
+                alert('您必須選擇三位候選人！');
+                event.preventDefault(); // 防止表單提交
+            }
+        });
+    </script>
 </body>
 </html>
